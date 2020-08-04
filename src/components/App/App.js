@@ -24,6 +24,18 @@ export class App extends Component {
     }
   }
 
+  makePost = (urlToPost) => {
+    postUrl(urlToPost)
+      .then(res => {
+        if (res.ok) {
+          this.updateState(urlToPost)
+        } else {
+          alert(`Bad Request: ${res.status} ${res.statusText}`)
+        }
+      })
+      .catch(err => console.error(err))
+  }
+
   updateState = (newUrl) => {
     this.setState((prevState) => ({ urls: [...prevState.urls, newUrl] }))
   }
@@ -34,10 +46,9 @@ export class App extends Component {
         <header>
           <h1>URL Shortener</h1>
           <UrlForm 
-            saveUrl={this.updateState}
+            saveUrl={this.makePost}
           />
         </header>
-
         <UrlContainer urls={this.state.urls}/>
       </main>
     );

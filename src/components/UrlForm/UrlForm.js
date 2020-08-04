@@ -16,26 +16,13 @@ class UrlForm extends Component {
   }
 
   handleSubmit = e => {
-    e.preventDefault();
-    this.makePost()
-    this.clearInputs();
-  }
-
-  makePost = () => {
-    let urlToPost = {
+    const urlToPost = {
       title: this.state.title,
       long_url: this.state.urlToShorten
     }
-    postUrl(urlToPost)
-      .then(res => {
-        if (res.ok) {
-          this.props.saveUrl(urlToPost)
-        } else {
-          console.log(res)
-          alert(`Bad Request: ${res.status} ${res.statusText}`)
-        }
-      })
-      .catch(err => console.error(err))
+    e.preventDefault();
+    this.props.saveUrl(urlToPost)
+    this.clearInputs();
   }
 
   clearInputs = () => {
