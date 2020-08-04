@@ -11,4 +11,12 @@ export const postUrl = (url) => {
     },
     body: JSON.stringify(url)
   })
+  .then(res => {
+    if (res.ok) {
+      console.log(res)
+    } else {
+      alert(`Bad Request: ${res.status} ${res.statusText}`)
+    }
+  })
+  .catch(err => console.error(err))
 }

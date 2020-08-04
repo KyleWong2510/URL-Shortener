@@ -1,6 +1,6 @@
 import React from 'react'
 import App from './App'
-import { render, waitFor } from '@testing-library/react'
+import { render, waitFor, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect';
 
 jest.mock('../../apiCalls')
@@ -55,5 +55,23 @@ describe('App', () => {
     expect(title3).toBeInTheDocument()
   })
 
-  
+  it('should render a new url after submission', async () => {
+    const { getByPlaceholderText, getByRole, getByText } = render(<App />)
+
+    const titleInput = getByPlaceholderText('Title...')
+    const urlInput = getByPlaceholderText('URL to Shorten...')
+    const button = getByRole('button', { name: 'Shorten Please!' })
+
+    fireEvent.change(titleInput, { target: { value: 'Test Title' } })
+    fireEvent.change(urlInput, { target: { value: 'Test URL' } })
+    
+    fireEvent.click(button)
+
+    const typedTitle = await waitFor(() => getByText('Test Title'))
+    // const typedUrl = await waitFor(() => getByText('Test URL', {exact: false}))
+
+    expect(typedTitle).toBeInTheDocument()
+    // expect(typedUrl).toBeInTheDocument()
+  })
 })
+

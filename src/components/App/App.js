@@ -26,14 +26,7 @@ export class App extends Component {
 
   makePost = (urlToPost) => {
     postUrl(urlToPost)
-      .then(res => {
-        if (res.ok) {
-          this.updateState(urlToPost)
-        } else {
-          alert(`Bad Request: ${res.status} ${res.statusText}`)
-        }
-      })
-      .catch(err => console.error(err))
+    this.updateState(urlToPost)
   }
 
   updateState = (newUrl) => {
