@@ -6,7 +6,8 @@ class UrlForm extends Component {
     this.props = props;
     this.state = {
       title: '',
-      urlToShorten: ''
+      urlToShorten: '',
+      isValid: true
     };
   }
 
@@ -15,13 +16,18 @@ class UrlForm extends Component {
   }
 
   handleSubmit = e => {
-    const urlToPost = {
-      title: this.state.title,
-      long_url: this.state.urlToShorten
-    }
     e.preventDefault();
-    this.props.saveUrl(urlToPost)
-    this.clearInputs();
+    if (this.state.title && this.state.urlToShorten) {
+      const urlToPost = {
+        title: this.state.title,
+        long_url: this.state.urlToShorten
+      }
+      this.setState({ isValid: true })
+      this.props.saveUrl(urlToPost)
+      this.clearInputs();
+    } else {
+      this.setState({ isValid: false })
+    }
   }
 
   clearInputs = () => {
@@ -50,6 +56,8 @@ class UrlForm extends Component {
         <button onClick={e => this.handleSubmit(e)}>
           Shorten Please!
         </button>
+
+        {!this.state.isValid && <p>COMPLETE THE FORM</p>}
       </form>
     )
   }
