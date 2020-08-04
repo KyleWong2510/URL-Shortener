@@ -17,12 +17,25 @@ export class App extends Component {
       .then((data) => this.setState({ urls: data.urls }))
   }
 
+  componentDidUpdate = (prevProps, prevState) => {
+    if (this.state.urls.length !== prevState.urls.length) {
+      getUrls()
+        .then((data) => this.setState({ urls: data.urls }))
+    }
+  }
+
+  updateState = (newUrl) => {
+    this.setState((prevState) => ({ urls: [...prevState.urls, newUrl] }))
+  }
+
   render() {
     return (
       <main className="App">
         <header>
           <h1>URL Shortener</h1>
-          <UrlForm />
+          <UrlForm 
+            saveUrl={this.updateState}
+          />
         </header>
 
         <UrlContainer urls={this.state.urls}/>

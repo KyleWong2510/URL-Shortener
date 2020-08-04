@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { postUrl } from '../../apiCalls'
 
 class UrlForm extends Component {
   constructor(props) {
@@ -16,7 +17,25 @@ class UrlForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    this.makePost()
     this.clearInputs();
+  }
+
+  makePost = () => {
+    let urlToPost = {
+      title: this.state.title,
+      long_url: this.state.urlToShorten
+    }
+    postUrl(urlToPost)
+      .then(res => {
+        if (res.ok) {
+          this.props.saveUrl(urlToPost)
+        } else {
+          console.log(res)
+          alert(`Bad Request: ${res.status} ${res.statusText}`)
+        }
+      })
+      .catch(err => console.error(err))
   }
 
   clearInputs = () => {
@@ -37,8 +56,8 @@ class UrlForm extends Component {
         <input
           type='text'
           placeholder='URL to Shorten...'
-          name='title'
-          value={this.state.title}
+          name='urlToShorten'
+          value={this.state.urlToShorten}
           onChange={e => this.handleNameChange(e)}
         />
 
