@@ -18,7 +18,7 @@ export class App extends Component {
   }
 
   componentDidUpdate = (prevProps, prevState) => {
-    if (this.state.urls !== prevState.urls) {
+    if (this.state.urls.length !== prevState.urls.length) {
       getUrls()
         .then((data) => this.setState({ urls: data.urls }))
     }

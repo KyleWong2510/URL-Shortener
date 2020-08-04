@@ -27,8 +27,15 @@ class UrlForm extends Component {
       long_url: this.state.urlToShorten
     }
     postUrl(urlToPost)
+      .then(res => {
+        if (res.ok) {
+          this.props.saveUrl(urlToPost)
+        } else {
+          console.log(res)
+          alert(`Bad Request: ${res.status} ${res.statusText}`)
+        }
+      })
       .catch(err => console.error(err))
-    this.props.saveUrl(urlToPost)
   }
 
   clearInputs = () => {

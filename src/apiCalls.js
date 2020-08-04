@@ -11,5 +11,4 @@ export const postUrl = (url) => {
     },
     body: JSON.stringify(url)
   })
-    .then(res => console.log(res))
 }
