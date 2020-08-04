@@ -55,7 +55,7 @@ describe('App', () => {
     expect(title3).toBeInTheDocument()
   })
 
-  it('should render a new url after submission', async () => {
+  it('should render a new url after submission', () => {
     const { getByPlaceholderText, getByRole, getByText } = render(<App />)
 
     const titleInput = getByPlaceholderText('Title...')
@@ -67,11 +67,11 @@ describe('App', () => {
     
     fireEvent.click(button)
 
-    const typedTitle = await waitFor(() => getByText('Test Title'))
-    // const typedUrl = await waitFor(() => getByText('Test URL', {exact: false}))
+    const typedTitle = getByText('Test Title')
+    const typedUrl = getByText('Test URL')
 
     expect(typedTitle).toBeInTheDocument()
-    // expect(typedUrl).toBeInTheDocument()
+    expect(typedUrl).toBeInTheDocument()
   })
 })
 

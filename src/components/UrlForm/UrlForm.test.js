@@ -45,6 +45,16 @@ describe('UrlForm', () => {
     
     fireEvent.click(button)
     expect(mockSaveUrl).toHaveBeenCalledTimes(1)
+  })
 
+  it('should alert the user if no inputs are received', () => {
+    const { getByText, getByRole } = render(<UrlForm saveUrl={jest.fn()}/>)
+
+    const button = getByRole('button', { name: 'Shorten Please!' })
+
+    fireEvent.click(button)
+    
+    const warning = getByText('COMPLETE THE FORM')
+    expect(warning).toBeInTheDocument()
   })
 })
