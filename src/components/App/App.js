@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { getUrls, postUrl } from '../../apiCalls';
+import { getUrls, postUrl, deleteUrl } from '../../apiCalls';
 import UrlContainer from '../UrlContainer/UrlContainer';
 import UrlForm from '../UrlForm/UrlForm';
 
@@ -15,6 +15,7 @@ export class App extends Component {
   componentDidMount() {
     getUrls()
       .then((data) => this.setState({ urls: data.urls }))
+      .catch(err => console.error(err))
   }
 
   componentDidUpdate = (prevProps, prevState) => {
@@ -33,6 +34,15 @@ export class App extends Component {
     this.setState((prevState) => ({ urls: [...prevState.urls, newUrl] }))
   }
 
+  deleteFromState = (id) => {
+    let foundUrl = this.state.urls.find(url => url.id === id)
+    let urlsCopy = [...this.state.urls]
+    let index = urlsCopy.indexOf(foundUrl)
+    urlsCopy.splice(index, 1)
+    this.setState({ urls: urlsCopy })
+    deleteUrl(id)
+  }
+
   render() {
     return (
       <main className="App">
@@ -42,7 +52,7 @@ export class App extends Component {
             saveUrl={this.makePost}
           />
         </header>
-        <UrlContainer urls={this.state.urls}/>
+        <UrlContainer urls={this.state.urls} deleteUrl={this.deleteFromState}/>
       </main>
     );
   }
